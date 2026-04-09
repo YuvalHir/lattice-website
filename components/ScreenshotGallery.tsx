@@ -11,7 +11,7 @@ const screenshots = [
   { src: "/docs/themes.webp", title: "Themes", caption: "6 professional built-in themes." },
   { src: "/docs/launchworkspace.gif", title: "Launch Swarm", caption: "Instant multi-agent workspace activation." },
   { src: "/docs/splitagent.gif", title: "Split Terminals", caption: "On-the-fly tiling and session management." },
-  { src: "/docs/themeswitch.gif", title: "Live Theming", caption: "Switch themes instantly across all components." },
+  { src: "/docs/switchtheme.gif", title: "Live Theming", caption: "Switch themes instantly across all components." },
   { src: "/docs/workspacehistory.gif", title: "History", caption: "Relaunch previous sessions with one click." }
 ];
 
