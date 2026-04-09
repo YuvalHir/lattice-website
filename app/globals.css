@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0c0c0c;
+  --foreground: #ffffff;
+  
+  /* Primary Palette */
+  --electric-cyan: #00e5ff;
+  --vivid-violet: #7000ff;
+  --neon-mint: #00ff9c;
+  --deep-slate: #0f172a;
+  --terminal-black: #0c0c0c;
+  
+  /* Theme Colors */
+  --github-dark: #0d1117;
+  --dracula: #282a36;
+  --monokai: #272822;
+  --nord: #2e3440;
+  --one-dark: #282c34;
+  --github-light: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  
+  --color-electric-cyan: var(--electric-cyan);
+  --color-vivid-violet: var(--vivid-violet);
+  --color-neon-mint: var(--neon-mint);
+  --color-deep-slate: var(--deep-slate);
+  --color-terminal-black: var(--terminal-black);
+  
+  --color-github-dark: var(--github-dark);
+  --color-dracula: var(--dracula);
+  --color-monokai: var(--monokai);
+  --color-nord: var(--nord);
+  --color-one-dark: var(--one-dark);
+  --color-github-light: var(--github-light);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans: var(--font-assistant);
+  --font-mono: var(--font-geist-mono);
+  
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 5px var(--electric-cyan), 0 0 10px var(--electric-cyan);
+    }
+    to {
+      box-shadow: 0 0 10px var(--electric-cyan), 0 0 20px var(--electric-cyan);
+    }
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-assistant), sans-serif;
+  overflow-x: hidden;
+}
+
+pre, code {
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.glassmorphism {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cyan-glow-text {
+  color: var(--electric-cyan);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+}
+
+.violet-glow-text {
+  color: var(--vivid-violet);
+  text-shadow: 0 0 8px rgba(112, 0, 255, 0.5);
+}
+
+.grid-bg {
+  background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
