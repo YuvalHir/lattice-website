@@ -3,23 +3,16 @@
 import { motion } from 'framer-motion';
 import { Download, Terminal } from 'lucide-react';
 import OptimizedImage from './OptimizedImage';
-import { useEffect, useState } from 'react';
+import { useReleaseData } from '@/hooks/useReleaseData';
 
 export default function Hero() {
-  const [version, setVersion] = useState<string>('...');
+  const { version, platform, downloadUrl } = useReleaseData();
 
-  useEffect(() => {
-    async function fetchVersion() {
-      try {
-        const res = await fetch('https://api.github.com/repos/YuvalHir/Lattice/releases/latest');
-        const data = await res.json();
-        setVersion(data.tag_name || 'v0.1.7');
-      } catch {
-        setVersion('v0.1.7');
-      }
-    }
-    fetchVersion();
-  }, []);
+  const platformLabels: Record<string, string> = {
+    windows: 'Windows',
+    macos: 'macOS',
+    linux: 'Linux',
+  };
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden grid-bg">
@@ -49,11 +42,11 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <a
-              href="https://github.com/YuvalHir/Lattice/releases"
+              href={downloadUrl || 'https://github.com/YuvalHir/Lattice/releases'}
               className="w-full sm:w-auto px-8 py-4 bg-electric-cyan text-terminal-black font-bold rounded-lg hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,229,255,0.4)]"
             >
               <Download size={20} />
-              Download Free
+              Download for {platformLabels[platform] || 'Free'}
             </a>
             <a
               href="https://github.com/YuvalHir/Lattice"

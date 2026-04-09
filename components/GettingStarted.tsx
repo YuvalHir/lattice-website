@@ -1,28 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Terminal, Copy, Check, Monitor, AppWindow, Cpu } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useReleaseData } from '@/hooks/useReleaseData';
+
+interface ReleaseAsset {
+  name: string;
+  browser_download_url: string;
+}
+
+function getAssetUrl(assets: ReleaseAsset[], platform: string): string | null {
+  const patterns: Record<string, RegExp[]> = {
+    windows: [/\.exe$/i, /-windows/i, /_windows/i, /msi$/i],
+    macos: [/\.dmg$/i, /-macos/i, /_macos/i, /\.app\b/i, /\.pkg$/i],
+    linux: [/\.deb$/i, /\.rpm$/i, /\.appimage$/i, /-linux/i, /_linux/i, /\.tar\.gz$/i],
+  };
+
+  for (const pattern of patterns[platform] || []) {
+    const asset = assets.find(a => pattern.test(a.name));
+    if (asset) return asset.browser_download_url;
+  }
+  return null;
+}
 
 export default function GettingStarted() {
   const [activeTab, setActiveTab] = useState<'users' | 'developers'>('users');
   const [copied, setCopied] = useState(false);
-  const [version, setVersion] = useState<string>('...');
+  const { version, platform, allAssets } = useReleaseData();
 
-  useEffect(() => {
-    async function fetchVersion() {
-      try {
-        const res = await fetch('https://api.github.com/repos/YuvalHir/Lattice/releases/latest');
-        const data = await res.json();
-        setVersion(data.tag_name || 'v0.1.7');
-      } catch {
-        setVersion('v0.1.7');
-      }
-    }
-    fetchVersion();
-  }, []);
+  const windowsUrl = getAssetUrl(allAssets, 'windows');
+  const macosUrl = getAssetUrl(allAssets, 'macos');
+  const linuxUrl = getAssetUrl(allAssets, 'linux');
 
   const installCode = `# Clone the repository
 git clone https://github.com/YuvalHir/Lattice.git
@@ -87,39 +98,42 @@ npm run tauri dev`;
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <a 
-                    href="https://github.com/YuvalHir/Lattice/releases"
-                    className="flex flex-col items-center gap-6 p-8 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-all group"
+                    href={windowsUrl || 'https://github.com/YuvalHir/Lattice/releases'}
+                    className={`flex flex-col items-center gap-6 p-8 border rounded-2xl transition-all group ${platform === 'windows' ? 'bg-electric-cyan/10 border-electric-cyan/50' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}
                   >
-                    <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Monitor className="text-electric-cyan" size={32} />
+                    <div className={`w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform ${platform === 'windows' ? 'ring-2 ring-electric-cyan' : ''}`}>
+                      <Monitor className={platform === 'windows' ? 'text-electric-cyan' : 'text-slate-400'} size={32} />
                     </div>
                     <div className="text-center">
                       <h4 className="font-bold text-lg mb-1">Windows</h4>
                       <p className="text-slate-500 text-sm">.exe installer</p>
+                      {platform === 'windows' && <span className="text-electric-cyan text-xs font-mono">Recommended</span>}
                     </div>
                   </a>
                   <a 
-                    href="https://github.com/YuvalHir/Lattice/releases"
-                    className="flex flex-col items-center gap-6 p-8 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-all group"
+                    href={macosUrl || 'https://github.com/YuvalHir/Lattice/releases'}
+                    className={`flex flex-col items-center gap-6 p-8 border rounded-2xl transition-all group ${platform === 'macos' ? 'bg-vivid-violet/10 border-vivid-violet/50' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}
                   >
-                    <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <AppWindow className="text-vivid-violet" size={32} />
+                    <div className={`w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform ${platform === 'macos' ? 'ring-2 ring-vivid-violet' : ''}`}>
+                      <AppWindow className={platform === 'macos' ? 'text-vivid-violet' : 'text-slate-400'} size={32} />
                     </div>
                     <div className="text-center">
                       <h4 className="font-bold text-lg mb-1">macOS</h4>
                       <p className="text-slate-500 text-sm">.dmg or .app</p>
+                      {platform === 'macos' && <span className="text-vivid-violet text-xs font-mono">Recommended</span>}
                     </div>
                   </a>
                   <a 
-                    href="https://github.com/YuvalHir/Lattice/releases"
-                    className="flex flex-col items-center gap-6 p-8 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-all group"
+                    href={linuxUrl || 'https://github.com/YuvalHir/Lattice/releases'}
+                    className={`flex flex-col items-center gap-6 p-8 border rounded-2xl transition-all group ${platform === 'linux' ? 'bg-neon-mint/10 border-neon-mint/50' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}
                   >
-                    <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Cpu className="text-neon-mint" size={32} />
+                    <div className={`w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform ${platform === 'linux' ? 'ring-2 ring-neon-mint' : ''}`}>
+                      <Cpu className={platform === 'linux' ? 'text-neon-mint' : 'text-slate-400'} size={32} />
                     </div>
                     <div className="text-center">
                       <h4 className="font-bold text-lg mb-1">Linux</h4>
                       <p className="text-slate-500 text-sm">.AppImage or .deb</p>
+                      {platform === 'linux' && <span className="text-neon-mint text-xs font-mono">Recommended</span>}
                     </div>
                   </a>
                 </div>
