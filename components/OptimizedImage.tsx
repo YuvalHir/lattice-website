@@ -23,7 +23,13 @@ export default function OptimizedImage({ src, alt, className, fill, style }: Opt
         src={`${basePath}${src}`}
         alt={alt}
         className={className}
-        style={{ ...style, objectFit: 'cover' }}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          ...style,
+        }}
       />
     );
   }
