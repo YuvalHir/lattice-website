@@ -1,7 +1,7 @@
 'use client';
 
 import { Heart } from 'lucide-react';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 
 export default function Footer() {
   return (
@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-10 h-10 relative">
-                <Image src="/docs/logo.svg" alt="Lattice Logo" fill className="object-contain" />
+                <OptimizedImage src="/docs/logo.svg" alt="Lattice Logo" fill className="object-contain" />
               </div>
               <span className="text-2xl font-bold tracking-tighter">Lattice</span>
             </div>

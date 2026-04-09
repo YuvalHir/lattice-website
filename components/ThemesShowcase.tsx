@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 
 const themes = [
   { name: "GitHub Dark", vibe: "Professional & Clean", color: "#0D1117" },
@@ -58,7 +58,7 @@ export default function ThemesShowcase() {
             </p>
           </div>
           <div className="flex-1 w-full relative aspect-video rounded-xl overflow-hidden border border-white/10">
-            <Image
+            <OptimizedImage
               src="/docs/switchtheme.gif"
               alt="Theme Switching"
               fill

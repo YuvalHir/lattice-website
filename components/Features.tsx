@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   Grid, Users, History, Columns, Server, GitBranch, Folder, Palette, Keyboard 
 } from 'lucide-react';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 
 const features = [
   {
@@ -91,7 +91,7 @@ export default function Features() {
               <p className="text-slate-400 mb-6 leading-relaxed">{feature.description}</p>
               
               <div className="relative aspect-video rounded-lg overflow-hidden border border-white/5 opacity-80 group-hover:opacity-100 transition-opacity">
-                <Image
+                <OptimizedImage
                   src={feature.image}
                   alt={feature.title}
                   fill

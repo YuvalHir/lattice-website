@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 
 const screenshots = [
   { src: "/docs/workspace.webp", title: "Main Workspace", caption: "Perfectly tiled terminal sessions." },
@@ -11,7 +11,7 @@ const screenshots = [
   { src: "/docs/themes.webp", title: "Themes", caption: "6 professional built-in themes." },
   { src: "/docs/launchworkspace.gif", title: "Launch Swarm", caption: "Instant multi-agent workspace activation." },
   { src: "/docs/splitagent.gif", title: "Split Terminals", caption: "On-the-fly tiling and session management." },
-  { src: "/docs/switchtheme.gif", title: "Live Theming", caption: "Switch themes instantly across all components." },
+  { src: "/docs/themeswitch.gif", title: "Live Theming", caption: "Switch themes instantly across all components." },
   { src: "/docs/workspacehistory.gif", title: "History", caption: "Relaunch previous sessions with one click." }
 ];
 
@@ -35,11 +35,11 @@ export default function ScreenshotGallery() {
               className="relative group rounded-xl overflow-hidden border border-white/10 bg-white/5"
             >
               <div className="relative aspect-video">
-                <Image
+                <OptimizedImage
                   src={shot.src}
                   alt={shot.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
               <div className="p-4 bg-slate-900/90 border-t border-white/5 flex items-center justify-between">

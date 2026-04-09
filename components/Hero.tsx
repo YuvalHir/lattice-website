@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Download, Terminal } from 'lucide-react';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 import { useEffect, useState } from 'react';
 
 export default function Hero() {
@@ -87,13 +87,10 @@ export default function Hero() {
                 lattice — workspace
               </div>
             </div>
-            <Image
+            <OptimizedImage
               src="/docs/workspace.webp"
               alt="Lattice Workspace"
-              width={1920}
-              height={1080}
               className="w-full h-auto mt-8 scale-[1.01]"
-              priority
             />
           </div>
           
